@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  shortener:
+    build: ./src
+    image: lycantropos/shortener:latest
+    entrypoint: /opt/shortener/docker-entrypoint.sh
+    volumes:
+      - ./src:/opt/shortener
+    ports:
+      - 8000:8000
