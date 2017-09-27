@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Logged in as {{ user.username }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit"/>
+  </form>
+
+  <table summary="view">
+    <tr>
+      <th>original</th>
+      <th>short</th>
+      <th>counter</th>
+      {% for url in urls %}
+        <tr>
+          <td><a href="{{ url.original.address }}">{{ url.original.address }}</a></td>
+          <td><a href="{{ url.short.address }}">{{ url.short.address }}</a></td>
+          <td>{{ url.counter }}</td>
+        </tr>
+      {% endfor %}
+  </table>
+
+  <div class="pagination">
+    <span class="step-links">
+        {% if urls.has_previous %}
+          <a href="?page={{ urls.previous_page_number }}">previous</a>
+        {% endif %}
+
+      <span class="current">
+            Page {{ urls.number }} of {{ urls.paginator.num_pages }}.
+        </span>
+
+      {% if urls.has_next %}
+        <a href="?page={{ urls.next_page_number }}">next</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}
