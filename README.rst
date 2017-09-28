@@ -22,6 +22,8 @@ Run ``Docker`` container
 
     docker-compose up
 
+After successful start application should be available at http://localhost:8000/.
+
 Development with Docker Compose
 -------------------------------
 
