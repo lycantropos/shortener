@@ -3,6 +3,8 @@ import os
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from sqlalchemy_helpers.connectable import check_connection
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -60,8 +62,13 @@ WSGI_APPLICATION = 'shortener.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+postgres_uri = os.environ['POSTGRES_URI']
+# sometimes it takes some time for container with PostgreSQL to instantiate,
+# so we wait until it is reachable
+check_connection(postgres_uri)
+
 DATABASES = {
-    'default': dj_database_url.parse(os.environ['POSTGRES_URI'])
+    'default': dj_database_url.parse(postgres_uri)
 }
 
 # Cache
