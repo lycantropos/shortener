@@ -11,6 +11,21 @@ services:
       - 8000:8000
     environment:
       REDIS_URI: redis://redis:6379/1
+      POSTGRES_URI: postgresql://username:password@postgres/shortener
+
+  postgres:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=shortener
+    ports:
+      - 5432:5432
 
   redis:
     image: redis:4
+
+volumes:
+  postgres_data:
