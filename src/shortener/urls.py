@@ -1,11 +1,9 @@
 from django.conf.urls import url
-from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from core import views as core_views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^$', core_views.home,
         name='home'),
     url(r'^\w{6}$', core_views.redirect_shorten,
