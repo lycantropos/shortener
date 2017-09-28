@@ -12,6 +12,9 @@ services:
     environment:
       REDIS_URI: redis://redis:6379/1
       POSTGRES_URI: postgresql://username:password@postgres/shortener
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
     image: postgres:latest
