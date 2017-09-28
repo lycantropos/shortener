@@ -15,21 +15,17 @@ class URL(forms.Form):
             if form.is_valid():
                 original_url = form.cleaned_data['original']
                 short_url = request.build_absolute_uri(shorten(original_url))
+                original = models.RawURL(address=original_url)
+                short = models.RawURL(address=short_url)
                 try:
-                    url = generate_url(original_url, short_url)
+                    original.save(force_insert=True)
+                    short.save(force_insert=True)
                 except Exception as err:
                     form.add_error(field=None,
                                    error=err)
                 else:
-                    url.save()
+                    models.URL.objects.create(original=original,
+                                              short=short)
         else:
             form = cls()
         return form
-
-
-def generate_url(original_url: str,
-                 short_url: str) -> models.URL:
-    original = models.RawURL.objects.create(address=original_url)
-    short = models.RawURL.objects.create(address=short_url)
-    return models.URL.objects.create(original=original,
-                                     short=short)
